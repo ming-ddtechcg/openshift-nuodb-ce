@@ -194,7 +194,7 @@ objects:
       group: nuodb
   spec:
     serviceName: domain
-    replicas: ${ADMIN_COUNT}
+    replicas: 1
     selector:
       matchLabels:
         affinity: admin
@@ -262,28 +262,6 @@ objects:
             periodSeconds: 15
             exec:
               command: [ "nuodocker", "check", "servers" ]
-    #       volumeMounts:
-    #       - name: raftlog
-    #         mountPath: /var/opt/nuodb
-    #       - name: log-volume
-    #         mountPath: /var/log/nuodb
-    #     volumes:
-    #       - name: log-volume
-    #         emptyDir: {}
-    # volumeClaimTemplates:
-    # - metadata:
-    #     name: raftlog
-    #     labels:
-    #       group: nuodb
-    #   spec:
-    #     labels:
-    #       app: nuodb
-    #       group: nuodb
-    #     accessModes: [ "ReadWriteOnce" ]
-    #     storageClassName: ${ADMIN_STORAGE_CLASS}
-    #     resources:
-    #       requests:
-    #         storage: ${ADMIN_STORAGE_SIZE}
 -
   apiVersion: "apps/v1"
   kind: StatefulSet
@@ -363,21 +341,6 @@ objects:
               cpu: "${SM_CPU}"
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
-          # volumeMounts:
-          # - mountPath: /var/opt/nuodb/archive
-          #   name: archive
-    # volumeClaimTemplates:
-    # - metadata:
-    #     name: archive
-    #   spec:
-    #     labels:
-    #       app: nuodb
-    #       group: nuodb
-    #     accessModes: [ "ReadWriteOnce" ]
-    #     storageClassName: ${SM_STORAGE_CLASS}
-    #     resources:
-    #       requests:
-    #         storage: ${SM_STORAGE_SIZE}
 -
   apiVersion: v1
   kind: DeploymentConfig
@@ -487,6 +450,11 @@ objects:
           database: ${DB_NAME}
       spec:
         affinity:
+          nodeAffinity:
+            requiredDuringSchedulingIgnoredDuringExecution:
+              nodeSelectorTerms:
+                - matchExpressions:
+                  - { key: "nuodb.com/zone",      operator: Exists }
           podAffinity:
             preferredDuringSchedulingIgnoredDuringExecution:
             - weight: 50
@@ -648,6 +616,12 @@ objects:
       app: insights
       group: nuodb
   spec:
+    affinity:
+      nodeAffinity:
+        requiredDuringSchedulingIgnoredDuringExecution:
+          nodeSelectorTerms:
+            - matchExpressions:
+              - { key: "nuodb.com/zone",      operator: Exists }
     initContainers:
     - name: optin
       image: ${CONTAINER}
@@ -702,19 +676,6 @@ parameters:
       Insights visual database monitoring, type "true" to Activate or "false" to deactivate
     required: true
     value: ""
-  - name: ADMIN_COUNT
-    displayName: Number of admin service pods
-    description: "Requires 1 server available for each Admin Service"
-    required: true
-    value: "1"
-  # - name: ADMIN_STORAGE_SIZE
-  #   displayName: Admin service log volume size (GB)
-  #   required: true
-  #   value: 5G
-  # - name: ADMIN_STORAGE_CLASS
-  #   displayName: Admin persistent storage class name
-  #   required: true
-  #   value: "glusterfs-storage"
   - name: DB_NAME
     displayName: Database name
     description: "Database name, must consist of lowercase alphanumeric characters '[a-z0-9]+'"
@@ -728,14 +689,6 @@ parameters:
     displayName: Database password
     required: true
     value: secret
-  # - name: SM_STORAGE_SIZE
-  #   displayName: Storage manager (SM) volume size (GB)
-  #   required: true
-  #   value: 20G
-  # - name: SM_STORAGE_CLASS
-  #   displayName: SM persistent storage class name
-  #   required: true
-  #   value: "glusterfs-storage"
   - name: SM_MEMORY
     displayName: SM memory (in GB)
     required: true
@@ -812,7 +765,7 @@ parameters:
     displayName: NuoDB fully qualified image name
     description: "Fully qualified image name (FQIN) for the Docker image to use"
     required: true
-    value: "nuodb/nuodb-ce-staging:3.3.0-108-rhel7"
+    value: "registry.connect.redhat.com/nuodb/nuodb-ce:latest"
   - name: YCSB_CONTAINER
     displayName: YCSB fully qualified image name
     description: "Fully qualified image name (FQIN) for the Docker image to use"
