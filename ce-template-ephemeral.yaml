@@ -45,12 +45,6 @@ metadata:
 
         https://www.nuodb.com
 
-      # Storage Classes
-
-      # The parameters of this template require you to specify a StorageClass name.
-      # We've tested with GlusterFS ("glusterfs-storage") and OpenEBS ("openebs-standard").
-      # Enter the storage class name you wish to use for durable database state.
-
       # Transparent Huge Pages (THP) and Node Labeling
 
       Ephemeral Storage
