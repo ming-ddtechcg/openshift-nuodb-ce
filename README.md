@@ -135,3 +135,12 @@ secret "nuodb-docker" created
 
 Using the OpenShift UI, import and run the template. Follow online instructions
 found at nuodb.com.
+
+## Cleaning Up
+
+Simple,
+
+```bash
+# oc delete project test
+project "test" deleted
+```
