@@ -45,14 +45,14 @@ metadata:
 
         https://www.nuodb.com
 
-      # Transparent Huge Pages (THP) and Node Labeling
-
       Ephemeral Storage
 
       This version of the NuoDB CE image uses container-local "ephemeral" storage.
       This makes configuring and startup as easy as possible - but it precludes any form of resiliency testing
       of either Storage (SM) or Admin processes.
       The Transaction processes (TEs) can be tested for failure and scale-out / scale-in because they are stateless.
+
+      Transparent Huge Pages (THP) and Node Labeling
 
       Before running the NuoDB Community Edition (CE) Ephemeral template, you must first disable
       Transparent Huge Pages (THP) and label the nodes you want to run NuoDB pods. The
