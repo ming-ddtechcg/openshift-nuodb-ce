@@ -45,26 +45,45 @@ metadata:
 
         https://www.nuodb.com
 
-      Storage Classes
-
-      The parameters of this template require you to specify a StorageClass name.
-      We've tested with GlusterFS ("glusterfs-storage") and OpenEBS ("openebs-standard").
-      Enter the storage class name you wish to use for durable database state.
-
-      Transparent Huge Pages (THP) and Node Labeling
+      Transparent Huge Pages (THP)
 
       Before running the NuoDB Community Edition (CE) template, you must first disable
-      Transparent Huge Pages (THP) and label the nodes you want to run NuoDB pods. The
-      labels must be of the form "nuodb.com/zone", for example:
-
-        oc label node <node-name> nuodb.com/zone=nuodb
-
-      Note: the label value, in this example "nuodb", can be any value.
-
-      See the product documentation for details on how to disable THP and how to set
-      the labels.
+      Transparent Huge Pages (THP) for the nodes where you want to run NuoDB pods.
+      See the product documentation for details on how to disable THP:
 
         http://doc.nuodb.com/Latest/Default.htm#Note-About-%20Using-Transparent-Huge-Pages.htm?Highlight=transparent
+
+      Node Labeling
+
+      Before running the NuoDB Community Edition (CE) persistent storage template,
+      you must first label the nodes you want to run NuoDB pods.
+
+      The first label, "nuodb.com/zone", constrains on which nodes NuoDB pods are
+      permitted to run. For example:
+
+        oc label node <node-name> nuodb.com/zone=east
+
+      Note: the label value, in this example "east", can be any value.
+
+      Next, label one of these nodes as your storage node, where you provide persistent
+      storage for your database. Ensure there is sufficient disk space. To create this
+      label:
+
+        oc label node <node-name> nuodb.com/node-type=storage
+
+      Storage Classes and Volumes
+
+      NuoDB uses persistent storage for the Admin Service pods and the storage managers.
+      For each of these you need to define a storage class.
+
+      The storage class for the Admin Service pod is configurable by the template parameters.
+      We've tested with GlusterFS ("glusterfs-storage") and OpenEBS ("openebs-standard").
+      Enter the storage class name you wish to provision for the Admin Service pods.
+
+      The storage class for the storage manager is predefined within the `local-disk-class.yaml`
+      file, along with the volume used by the storage manager. To create these:
+
+        oc create -f local-disk-class.yaml
 
       NuoDB Insights Opt-In
 
