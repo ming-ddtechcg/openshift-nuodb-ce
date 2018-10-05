@@ -33,7 +33,7 @@ If you're following along at the command line, create a new project to
 test NuoDB out in:
 
 ```bash
-# oc new-project test
+$ oc new-project test
 Now using project "test" on server "https://ec2-52-90-23-139.compute-1.amazonaws.com:8443".
 
 You can add applications to this project with the 'new-app' command. For example, try:
@@ -66,26 +66,26 @@ All pods will run on those labeled nodes only.
 For example, to add labels:
 
 ```bash
-# oc project test
+$ oc project test
 Already on project "test" on server "https://ec2-52-90-23-139.compute-1.amazonaws.com:8443".
 
-# oc get nodes -L nuodb.com/zone -L nuodb.com/node-type
+$ oc get nodes -L nuodb.com/zone -L nuodb.com/node-type
 
-# oc label node ip-10-0-2-152.ec2.internal nuodb.com/zone=east
+$ oc label node ip-10-0-2-152.ec2.internal nuodb.com/zone=east
 node "ip-10-0-2-152.ec2.internal" labeled
 ```
 
 To delete the labels when you're all done:
 
 ```bash
-# oc label node ip-10-0-2-152.ec2.internal nuodb.com/zone-
+$ oc label node ip-10-0-2-152.ec2.internal nuodb.com/zone-
 node "ip-10-0-2-152.ec2.internal" labeled
 ```
 
 Your cluster should look something like this in the end with regards to labeling:
 
 ```bash
-# oc get nodes -L nuodb.com/zone -L nuodb.com/node-type
+$ oc get nodes -L nuodb.com/zone -L nuodb.com/node-type
 NAME                         STATUS    ROLES     AGE       VERSION             ZONE      NODE-TYPE
 ip-10-0-1-139.ec2.internal   Ready     compute   17h       v1.9.1+a0ce1bc657   a         storage
 ip-10-0-1-237.ec2.internal   Ready     compute   17h       v1.9.1+a0ce1bc657   a         
@@ -103,12 +103,24 @@ ip-10-0-2-81.ec2.internal    Ready     compute   17h       v1.9.1+a0ce1bc657
 All nodes where you run NuoDB MUST have transparent huge pages (THP) disabled.
 Follow instructions online for details on how to do this.
 
+### Create Volumes (Persistent Template ONLY)
+
+The persistent template requires the creation of a storage class and the
+creation of a volume. To do so, copy the `local-disk-class.yaml` file to
+your master, and install the template:
+
+```bash
+$ oc create -f local-disk-class.yaml
+storageclass "local-disk" created
+persistentvolume "local-disk-0" created
+``` 
+
 ### Create Red Hat Registry Credentials
 
 First, on the master, login to the Red Hat Registry (sample commands below):
 
 ```bash
-# docker login registry.connect.redhat.com
+$ docker login registry.connect.redhat.com
 Username: bbuck-nuodb
 Password: 
 Login Succeeded
@@ -117,7 +129,7 @@ Login Succeeded
 Verify you can pull the image:
 
 ```bash
-# docker pull registry.connect.redhat.com/nuodb/nuodb-ce
+$ docker pull registry.connect.redhat.com/nuodb/nuodb-ce
 Using default tag: latest
 latest: Pulling from nuodb/nuodb-ce
 367d84554057: Pull complete 
@@ -137,10 +149,10 @@ Status: Downloaded newer image for registry.connect.redhat.com/nuodb/nuodb-ce:la
 Create a Pull Secret:
 
 ```bash
-# oc create secret generic nuodb-docker --from-file=.dockerconfigjson=${HOME}/.docker/config.json --type=kubernetes.io/dockerconfigjson
+$ oc create secret generic nuodb-docker --from-file=.dockerconfigjson=${HOME}/.docker/config.json --type=kubernetes.io/dockerconfigjson
 secret "nuodb-docker" created
 
-# oc secrets link default nuodb-docker --for=pull
+$ oc secrets link default nuodb-docker --for=pull
 ```
 
 ### Import Template and Go!
@@ -153,6 +165,6 @@ found at nuodb.com.
 Simple,
 
 ```bash
-# oc delete project test
+$ oc delete project test
 project "test" deleted
 ```
