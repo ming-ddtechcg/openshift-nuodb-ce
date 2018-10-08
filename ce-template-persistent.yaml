@@ -792,7 +792,7 @@ parameters:
     value: ""
   - name: NO_OF_THREADS
     displayName: YCSB number of threads
-    value: "10"
+    value: "2"
     required: false
   - name: NO_OF_ROWS
     displayName: YCSB number of initial rows in table
