@@ -324,7 +324,6 @@ objects:
                 key: database-password
           - { name: NUOCMD_API_SERVER,   value: "admin.$(NAMESPACE).svc:8888"}
           - { name: PEER_ADDRESS,        value: "admin.$(NAMESPACE).svc" }
-          - { name: NUODB_LABELS,        value: "${LABELS}" }
           - { name: NUODB_OPTIONS,       value: "mem ${SM_MEMORY}g ${OPTIONS}" }
           ports:
           - containerPort: 48006
@@ -402,7 +401,7 @@ objects:
           - { name: DB_NAME,             value: "${DB_NAME}" }
           - { name: NUOCMD_API_SERVER,   value: "admin.$(NAMESPACE).svc:8888"}
           - { name: PEER_ADDRESS,        value: "admin.$(NAMESPACE).svc" }
-          - { name: NUODB_LABELS,        value: "${LABELS}" }
+          - { name: NUODB_LABELS,        value: "${TE_LABELS}" }
           - { name: NUODB_OPTIONS,       value: "mem ${TE_MEMORY}g ${OPTIONS}" }
           args: [ "nuote", "--servers-ready-timeout", "300", "--database-created-timeout", "300" ]
           ports:
@@ -497,6 +496,7 @@ objects:
           - { name: NO_OF_THREADS,       value: "${NO_OF_THREADS}" }
           - { name: NO_OF_ROWS,          value: "${NO_OF_ROWS}" }
           - { name: NO_OF_ITERATIONS,    value: "${NO_OF_ITERATIONS}" }
+          - { name: OPS_PER_ITERATION,    value: "${OPS_PER_ITERATION}" }
           - { name: MAX_DELAY,           value: "${MAX_DELAY}" }
 -
   apiVersion: v1
@@ -691,11 +691,6 @@ parameters:
     displayName: SM CPU cores to request
     required: true
     value: "1"
-  - name: LABELS
-    displayName: Additional labels
-    description: "Format: label1 value label2 value2 ..."
-    required: false
-    value: ""
   - name: OPTIONS
     displayName: Additional database options
     description: "Format: <option> <value> <option> <value> ..."
@@ -714,6 +709,16 @@ parameters:
     displayName: TE CPU cores to request
     required: true
     value: "1"
+  - name: TE_LABELS
+    displayName: Additional labels for the TE
+    description: |+
+      Format: label1 value label2 value2 ...
+      TE labels allow specific clients to connect to a specific TE or sets of TEs.
+      The labels are applied to ALL TEs in a given TE pod.
+      To configure additional TEs with different labels, run this YAML file subsequent times, each with a different TE label.
+      NOTE: Rerunning the YAML file will cause multiple warning messages that various objects 'already exist' - which can be ignored.
+    required: false
+    value: ""
   - name: YCSB_WORKLOAD
     displayName: YCSB workload
     description: "Valid values are a-f. Each letter determines a different mix of read and update workload percentage generated. a= 50/50, b=95/5, c=100 read. Refer to YCSB documentation for more detail"
@@ -726,6 +731,7 @@ parameters:
     value: ""
   - name: NO_OF_THREADS
     displayName: YCSB number of threads
+    description: The number of SQL connection that YCSB will make to the database. YCSB starts a new process for each thread.
     value: "2"
     required: false
   - name: NO_OF_ROWS
@@ -734,11 +740,25 @@ parameters:
     value: "10000"
   - name: NO_OF_ITERATIONS
     displayName: YCSB number of iterations
+    description: |+
+      The total number of times the YCSB benchmark runs each thread (process).
+      This controls the total run-time of the YCSB application.
+      Using the default values, each iteration takes typically 30 seconds, so a value of 10 would typically equate to 5 minutes total.
+      Use the value '0' to effectively run forever.
+    required: false
+    value: "0"
+  - name: OPS_PER_ITERATION
+    displayName: number of YCSB SQL operations to perform in each iteration.
+    description: |+
+      This value controls the number of SQL operations performed given database connection - since in YCSB, a connection lasts the lifetime of each process iteration..
+      Increasing this value increases the run-time of each iteration - and hence the entire benchmark - while also reducing the overhead of opening new connections.
+      Decreasing this value reduces the time taken for the YCSB benchmark to discover and use new or replacement TEs.
+      The default value, on default hardware, results in an iteration time of around 30 seconds, and hence a delay of around 30 seconds for e new TE to be utilised.
     required: false
     value: "10000"
   - name: MAX_DELAY
     displayName: YCSB maximum workload delay
-    description: "Maximum delay in milliseconds (Default is 4 minutes)"
+    description: "Maximum time in milliseconds to wait for the database to become active (Default is 4 minutes)"
     required: false
     value: "240000"
   - name: LOAD_NAME
