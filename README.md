@@ -1,12 +1,12 @@
 # NuoDB OpenShift CE Templates
 
-Public repository for the NuoDB CE OpenShift template.
+Public repository for the NuoDB CE OpenShift templates.
 
 ## Image Availability
 
 The templates reference images stored in the RHCC / Registry. Other images
 exist in case you don't have a RHCC account. The templates are parameterized
-so you can alter which image you pull. The set of permissible images are as
+so you can configure which image is used. The set of permissible images are as
 follows:
 
 | image  | operating system | default  |
@@ -25,7 +25,7 @@ up to permit isolating NuoDB to specified nodes using labels.
 
 While you can run the CE template on a single host, this is not recommended
 as you will end up running the transaction engine, storage manager, administration
-tier, and client driver -- all on one host.
+tier, and client sample application -- all on one host.
 
 #### Projects
 
