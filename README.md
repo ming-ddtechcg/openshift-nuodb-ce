@@ -51,15 +51,15 @@ Select the servers you want to use for NuoDB by assigning them OpenShift labels.
 ### STEP 4.
 Create an image pull secret which allows the template to pull the NuoDB CE container image from RHCC. From the OpenShift left bar menu, click “Resources”, then “Secrets”, and “Add Secret”. Enter values:
 
-Secret Type = Image Secret
-Secret Name = pull-secret
-Authentication Type = Image Registry Credentials
-Image Registry Server Address = registry.connect.redhat.com
-Username = (your RH login)
-Password = (your RH password)
-Email = (your email address)
-Link secret to a service account = (check this box)
-Service Account = Default
+      Secret Type = Image Secret
+      Secret Name = pull-secret
+      Authentication Type = Image Registry Credentials
+      Image Registry Server Address = registry.connect.redhat.com
+      Username = (your RH login)
+      Password = (your RH password)
+      Email = (your email address)
+      Link secret to a service account = (check this box)
+      Service Account = Default
 
 ### STEP 5.
 Import the NuoDB CE template of your choice into OpenShift by navigating to the Overview Tab, clicking “Import YAML/JSON,” and running the import.
@@ -69,11 +69,10 @@ Process the template by navigating back to the Overview Tab and clicking “Sele
 
 It will only take a few moments for the database to start! You will see one pod each for the following database processes:
 
-Administrative Service (Admin)
-Storage Manager (SM)
-Transaction Engine (TE)
-Insights
-
+      Administrative Service (Admin)
+      Storage Manager (SM)
+      Transaction Engine (TE)
+      Insights
 
 
 #### Additional Information - Server Node Labeling
