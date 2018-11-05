@@ -75,7 +75,7 @@ It will only take a few moments for the database to start! You will see one pod 
       Insights
 
 
-#### Additional Information - Server Node Labeling
+#### Additional Information - Server Node Labeling Commands
 
 To permit isolating the NuoDB CE demo onto dedicated OpenShift nodes, you
 must add one label if you're running the `ephemeral` template, and two
@@ -97,13 +97,10 @@ All NuoDB pods will run on those labeled nodes only.
 
 For example, to add labels:
 
-```bash
-$ oc project test
-Already on project "test" on server "https://ec2-52-90-23-139.compute-1.amazonaws.com:8443".
-
+```
 $ oc get nodes -L nuodb.com/zone -L nuodb.com/node-type
 
-$ oc label node ip-10-0-2-152.ec2.internal nuodb.com/zone=east
+$ oc label node ip-10-0-2-152.ec2.internal nuodb.com/zone=nuodb
 node "ip-10-0-2-152.ec2.internal" labeled
 ```
 
