@@ -40,7 +40,7 @@ Disable Transparent Huge Pages (THP) on the servers you will run NuoDB container
 ### STEP 3.
 Select the servers you want to use for NuoDB by assigning them OpenShift labels. The database install will start four container pods. We recommend you label at least three servers using the oc label command. For example:
 
-      # oc label node nuodb.com/zone=nuodb
+      $ oc label node nuodb.com/zone=nuodb
 
       If you are deploying the persistent storage template run these addition commands from your master node.
       For one storage node, label it for storage use using this command
@@ -52,21 +52,13 @@ Select the servers you want to use for NuoDB by assigning them OpenShift labels.
 Create an image pull secret which allows the template to pull the NuoDB CE container image from RHCC. From the OpenShift left bar menu, click “Resources”, then “Secrets”, and “Add Secret”. Enter values:
 
 Secret Type = Image Secret
-
 Secret Name = pull-secret
-
 Authentication Type = Image Registry Credentials
-
 Image Registry Server Address = registry.connect.redhat.com
-
 Username = (your RH login)
-
 Password = (your RH password)
-
 Email = (your email address)
-
 Link secret to a service account = (check this box)
-
 Service Account = Default
 
 ### STEP 5.
