@@ -2,6 +2,10 @@
 
 Public repository for the NuoDB CE OpenShift templates.
 
+## NuoDB Community Edition (CE) in OpenShift Overview
+
+The NuoDB CE OpenShift template is available in two options (1) using ephemeral storage and (2) using persistent storage. With ephemeral storage, if the Admin Service pod or Storage Manager pod are stopped or deleted, the database will be removed with the pod. With persistent storage, if either pod is stopped or deleted, the database state is preserved and available again (just as it was) on automatic pod restart.  The Enterprise Edition already supports persistent storage, which can be made available by simply contacting us. We will also be releasing additional CE templates with persistent storage options.
+
 ## Image Availability
 
 The templates reference images stored in the RHCC / Registry. Other images
@@ -25,7 +29,52 @@ While you can run the CE template on a single host, this is not recommended
 as you will end up running the transaction engine, storage manager, administration
 tier, and client sample application -- all on one host.
 
-#### Server Node Labeling
+#### Deploying NuoDB CE in OpenShift
+
+STEP 1.
+Create a project name “nuodb” by clicking the OpenShift “Create Project” button. If you like, you can also add a template display name of “NuoDB CE”.
+
+STEP 2.
+Disable Transparent Huge Pages (THP) on the servers you will run NuoDB containers. For more information on this topic, see our OpenShift Prerequisite Configuration page, section titled “Disabling Transparent Huge Pages (THP)”.
+
+STEP 3.
+Select the servers you want to use for NuoDB by assigning them OpenShift labels. The database install will start four container pods. We recommend you label at least three servers using the oc label command. For example:
+
+      # oc label node nuodb.com/zone=nuodb
+
+      If you are deploying the persistent storage template run these addition commands from your master node.
+      For one storage node, label it for storage use using this command
+          $ oc label node <node name> nuodb.com/node-type=storage
+      Create the local persistent storage disk class and volume
+          $ oc create -f local-disk-class.yaml
+
+STEP 4.
+Create an image pull secret which allows the template to pull the NuoDB CE container image from RHCC. From the OpenShift left bar menu, click “Resources”, then “Secrets”, and “Add Secret”. Enter values:
+
+Secret Type = Image Secret
+Secret Name = pull-secret
+Authentication Type = Image Registry Credentials
+Image Registry Server Address = registry.connect.redhat.com
+Username = (your RH login)
+Password = (your RH password)
+Email = (your email address)
+Link secret to a service account = (check this box)
+Service Account = Default
+
+STEP 5.
+Import the NuoDB CE template of your choice into OpenShift by navigating to the Overview Tab, clicking “Import YAML/JSON,” and running the import.
+
+STEP 6.
+Process the template by navigating back to the Overview Tab and clicking “Select from Project”. Choose the NuoDB CE template and follow the installation prompts.
+
+It will only take a few moments for the database to start! You will see one pod each for the following database processes:
+
+Administrative Service (Admin)
+Storage Manager (SM)
+Transaction Engine (TE)
+Insights
+
+#### Additional Information - Server Node Labeling
 
 To permit isolating the NuoDB CE demo onto dedicated OpenShift nodes, you
 must add one label if you're running the `ephemeral` template, and two
@@ -79,68 +128,6 @@ ip-10-0-2-225.ec2.internal   Ready     compute   17h       v1.9.1+a0ce1bc657
 ip-10-0-2-73.ec2.internal    Ready     master    17h       v1.9.1+a0ce1bc657             
 ip-10-0-2-81.ec2.internal    Ready     compute   17h       v1.9.1+a0ce1bc657            
 ```
-
-#### Disable THP
-
-All nodes where you run NuoDB MUST have transparent huge pages (THP) disabled.
-Follow instructions online for details on how to do this.
-
-### Create Volumes (Persistent Template ONLY)
-
-The persistent template requires the creation of a storage class and the
-creation of a volume. To do so, copy the `local-disk-class.yaml` file to
-your master, and install the template:
-
-```bash
-$ oc create -f local-disk-class.yaml
-storageclass "local-disk" created
-persistentvolume "local-disk-0" created
-``` 
-
-### Create Red Hat Registry Credentials
-
-First, on the master, login to the Red Hat Registry (sample commands below):
-
-```bash
-$ docker login registry.connect.redhat.com
-Username: bbuck-nuodb
-Password: 
-Login Succeeded
-```
-
-Verify you can pull the image:
-
-```bash
-$ docker pull registry.connect.redhat.com/nuodb/nuodb-ce
-Using default tag: latest
-latest: Pulling from nuodb/nuodb-ce
-367d84554057: Pull complete 
-b82a357e4f15: Pull complete 
-96296ea486ee: Pull complete 
-14bbc3786d2b: Pull complete 
-f55b442ea0f5: Pull complete 
-73f063cf906e: Pull complete 
-869f7c78f7eb: Pull complete 
-ad0c66c71644: Pull complete 
-b64dc45d05b3: Pull complete 
-707d73cc01af: Pull complete 
-Digest: sha256:7f818edac51a99a6536b9c78eff83e1460885425d84c84b5c896e09681e7f1f3
-Status: Downloaded newer image for registry.connect.redhat.com/nuodb/nuodb-ce:latest
-```
-
-Create a Pull Secret:
-
-```bash
-$ oc create secret generic nuodb-docker --from-file=.dockerconfigjson=${HOME}/.docker/config.json --type=kubernetes.io/dockerconfigjson
-secret "nuodb-docker" created
-
-$ oc secrets link default nuodb-docker --for=pull
-```
-
-### Import Template and Go!
-
-Using the OpenShift UI, import and run the template. Follow online instructions
-found at nuodb.com.
 
 ## Cleaning Up
 
