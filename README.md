@@ -74,6 +74,8 @@ Storage Manager (SM)
 Transaction Engine (TE)
 Insights
 
+
+
 #### Additional Information - Server Node Labeling
 
 To permit isolating the NuoDB CE demo onto dedicated OpenShift nodes, you
