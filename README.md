@@ -95,7 +95,7 @@ Label ONLY one node with the `nuodb.com/node-type` label, with any value.
 
 All NuoDB pods will run on those labeled nodes only.
 
-For example, to add labels:
+For example, to list and add labels:
 
 ```
 $ oc get nodes -L nuodb.com/zone -L nuodb.com/node-type
@@ -113,7 +113,7 @@ node "ip-10-0-2-152.ec2.internal" labeled
 
 Your cluster should look something like this in the end with regards to labeling:
 
-```bash
+```
 $ oc get nodes -L nuodb.com/zone -L nuodb.com/node-type
 NAME                         STATUS    ROLES     AGE       VERSION             ZONE      NODE-TYPE
 ip-10-0-1-139.ec2.internal   Ready     compute   17h       v1.9.1+a0ce1bc657   a         storage
