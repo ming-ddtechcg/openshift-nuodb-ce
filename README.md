@@ -43,7 +43,7 @@ Label three or four nodes with the `nuodb.com/zone` label, any value.
 
 Label ONLY one node with the `nuodb.com/node-type` label, with any value.
 
-All pods will run on those labeled nodes only.
+All NuoDB pods will run on those labeled nodes only.
 
 For example, to add labels:
 
