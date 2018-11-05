@@ -58,7 +58,7 @@ Create an image pull secret which allows the template to pull the NuoDB CE conta
       Username = (your RH login)
       Password = (your RH password)
       Email = (your email address)
-      Link secret to a service account = (check this box)
+      Link secret to a service account (check this box)
       Service Account = Default
 
 ### STEP 5.
