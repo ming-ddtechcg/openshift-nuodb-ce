@@ -25,23 +25,7 @@ While you can run the CE template on a single host, this is not recommended
 as you will end up running the transaction engine, storage manager, administration
 tier, and client sample application -- all on one host.
 
-#### Projects
-
-If you're following along at the command line, create a new project to
-test NuoDB out in:
-
-```bash
-$ oc new-project test
-Now using project "test" on server "https://ec2-52-90-23-139.compute-1.amazonaws.com:8443".
-
-You can add applications to this project with the 'new-app' command. For example, try:
-
-    oc new-app centos/ruby-22-centos7~https://github.com/openshift/ruby-ex.git
-
-to build a new example application in Ruby.
-```
-
-#### Labeling
+#### Server Node Labeling
 
 To permit isolating the NuoDB CE demo onto dedicated OpenShift nodes, you
 must add one label if you're running the `ephemeral` template, and two
