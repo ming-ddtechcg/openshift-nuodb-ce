@@ -29,15 +29,15 @@ While you can run the CE template on a single host, this is not recommended
 as you will end up running the transaction engine, storage manager, administration
 tier, and client sample application -- all on one host.
 
-#### Deploying NuoDB CE in OpenShift
+## Deploying NuoDB CE in OpenShift
 
-STEP 1.
+### STEP 1.
 Create a project name “nuodb” by clicking the OpenShift “Create Project” button. If you like, you can also add a template display name of “NuoDB CE”.
 
-STEP 2.
+### STEP 2.
 Disable Transparent Huge Pages (THP) on the servers you will run NuoDB containers. For more information on this topic, see our OpenShift Prerequisite Configuration page, section titled “Disabling Transparent Huge Pages (THP)”.
 
-STEP 3.
+### STEP 3.
 Select the servers you want to use for NuoDB by assigning them OpenShift labels. The database install will start four container pods. We recommend you label at least three servers using the oc label command. For example:
 
       # oc label node nuodb.com/zone=nuodb
@@ -48,7 +48,7 @@ Select the servers you want to use for NuoDB by assigning them OpenShift labels.
       Create the local persistent storage disk class and volume
           $ oc create -f local-disk-class.yaml
 
-STEP 4.
+### STEP 4.
 Create an image pull secret which allows the template to pull the NuoDB CE container image from RHCC. From the OpenShift left bar menu, click “Resources”, then “Secrets”, and “Add Secret”. Enter values:
 
 Secret Type = Image Secret
@@ -61,10 +61,10 @@ Email = (your email address)
 Link secret to a service account = (check this box)
 Service Account = Default
 
-STEP 5.
+### STEP 5.
 Import the NuoDB CE template of your choice into OpenShift by navigating to the Overview Tab, clicking “Import YAML/JSON,” and running the import.
 
-STEP 6.
+### STEP 6.
 Process the template by navigating back to the Overview Tab and clicking “Select from Project”. Choose the NuoDB CE template and follow the installation prompts.
 
 It will only take a few moments for the database to start! You will see one pod each for the following database processes:
