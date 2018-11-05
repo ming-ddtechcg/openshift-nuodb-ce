@@ -14,9 +14,7 @@ follows:
 | registry.connect.redhat.com/nuodb/nuodb-ce:latest  | RHEL 7.5 | yes |
 | nuodb/nuodb-ce:latest | CentOS 7.5 | no |
 
-## Running
-
-### Environment
+## Environment Considerations
 
 We recommend that you perform your demo using three (3) or four (4) nodes.
 However, because your clusters may have more nodes than that, and you may
