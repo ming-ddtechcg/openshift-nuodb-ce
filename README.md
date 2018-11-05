@@ -1,4 +1,4 @@
-# NuoDB OpenShift CE Template
+# NuoDB OpenShift CE Templates
 
 Public repository for the NuoDB CE OpenShift template.
 
