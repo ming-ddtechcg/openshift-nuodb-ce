@@ -45,7 +45,7 @@ Select the servers you want to use for NuoDB by assigning them OpenShift labels.
       If you are deploying the persistent storage template run these addition two commands from your master node.
           
           For one storage node, label it for storage use using this command
-              $ oc label node <node name> nuodb.com/node-type=storage
+              <kbd>$ oc label node <node name> nuodb.com/node-type=storage</kbd>
           Create the local persistent storage disk class and volume
               $ oc create -f local-disk-class.yaml
           
