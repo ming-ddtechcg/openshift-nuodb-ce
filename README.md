@@ -4,7 +4,7 @@ Public repository for the NuoDB CE OpenShift templates.
 
 ## NuoDB Community Edition (CE) in OpenShift Overview
 
-The NuoDB CE OpenShift template is available in two options (1) using ephemeral storage and (2) using persistent storage. With ephemeral storage, if the Admin Service pod or Storage Manager pod are stopped or deleted, the database will be removed with the pod. With persistent storage, if either pod is stopped or deleted, the database state is preserved and available again (just as it was) on automatic pod restart.  The Enterprise Edition already supports persistent storage, which can be made available by simply contacting us. We will also be releasing additional CE templates with persistent storage options.
+The NuoDB CE OpenShift template is available in two options (1) using ephemeral storage and (2) using persistent storage. With ephemeral storage, if the Admin Service pod or Storage Manager pod are stopped or deleted, the database will be removed with the pod. With persistent storage, if either pod is stopped or deleted, the database state is preserved and available again (just as it was) on automatic pod restart.  The Enterprise Edition already supports persistent storage, which can be made available by simply contacting us. We will also be releasing additional CE templates with persistent storage options. For more information about NuoDB running in Red Hat OpenShift, including System Requirements, please see Deploying NuoDB in OpenShift Environments
 
 ## Image Availability
 
@@ -134,6 +134,6 @@ ip-10-0-2-81.ec2.internal    Ready     compute   17h       v1.9.1+a0ce1bc657
 Simple,
 
 ```bash
-$ oc delete project test
+$ oc delete project nuodb
 project "test" deleted
 ```
