@@ -39,7 +39,7 @@ Disable Transparent Huge Pages (THP) on the servers you will run NuoDB container
 
 ### STEP 3.
 Select the servers you want to use for NuoDB by assigning them OpenShift labels. The database install will start four container pods. We recommend you label at least three servers using the oc label command. For example:
-
+<kbd>$ oc label node <node name> nuodb.com/node-type=storage</kbd>
       $ oc label node nuodb.com/zone=nuodb
 
       If you are deploying the persistent storage template run these addition two commands from your master node.
