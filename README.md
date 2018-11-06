@@ -45,13 +45,9 @@ Select the servers you want to use for NuoDB by assigning them OpenShift labels.
       If you are deploying the persistent storage template run these addition two commands from your master node.
           
           For one storage node, label it for storage use using this command
-          ```
-          $ oc label node <node name> nuodb.com/node-type=storage
-          ```
+              $ oc label node <node name> nuodb.com/node-type=storage
           Create the local persistent storage disk class and volume
-          ```
-          $ oc create -f local-disk-class.yaml
-          ```
+              $ oc create -f local-disk-class.yaml
           
 ### STEP 4.
 Create an image pull secret which allows the template to pull the NuoDB CE container image from RHCC. From the OpenShift left bar menu, click “Resources”, then “Secrets”, and “Add Secret”. Enter values:
