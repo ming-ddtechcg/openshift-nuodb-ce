@@ -130,8 +130,6 @@ ip-10-0-2-81.ec2.internal    Ready     compute   17h       v1.9.1+a0ce1bc657
 
 ## Cleaning Up
 
-Simple,
-
 ```bash
 $ oc delete project nuodb
 project "nuodb" deleted
