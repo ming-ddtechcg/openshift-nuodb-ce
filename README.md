@@ -134,5 +134,5 @@ Simple,
 
 ```bash
 $ oc delete project nuodb
-project "test" deleted
+project "nuodb" deleted
 ```
