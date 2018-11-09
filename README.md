@@ -4,7 +4,7 @@ Public repository for the NuoDB CE OpenShift templates.
 
 ## NuoDB Community Edition (CE) in OpenShift Overview
 
-The NuoDB CE OpenShift template is available in two options (1) using ephemeral storage and (2) using persistent storage. With ephemeral storage, if the Admin Service pod or Storage Manager pod are stopped or deleted, the database will be removed with the pod. With persistent storage, if either pod is stopped or deleted, the database state is preserved and available again (just as it was) on automatic pod restart.  The Enterprise Edition already supports persistent storage, which can be made available by simply contacting us. We will also be releasing additional CE templates with persistent storage options. For more information about NuoDB running in Red Hat OpenShift, including System Requirements, please see our documentation section, [Deploying NuoDB in OpenShift Environments](https://doc.nuodb.com/Latest/Default.htm#Deploying-NuoDB-with-OpenShift.htm "NuoDB Documentation")
+The NuoDB CE OpenShift template is available in two options (1) using ephemeral storage and (2) using persistent storage. With ephemeral storage, if the Admin Service pod or Storage Manager pod are stopped or deleted, the database will be removed with the pod. With persistent storage, if either pod is stopped or deleted, the database state is preserved and available again (just as it was) on automatic pod restart.  The Enterprise Edition already supports persistent storage, which can be made available by simply contacting NuoDB. For more information about NuoDB running in Red Hat OpenShift, including System Requirements, see [Deploying NuoDB in OpenShift Environments](https://doc.nuodb.com/Latest/Default.htm#Deploying-NuoDB-with-OpenShift.htm "NuoDB Documentation").
 
 ## Image Availability
 
@@ -20,22 +20,22 @@ follows:
 
 ## Environment Considerations
 
-We recommend that you perform your demo using three (3) or four (4) nodes.
+We recommend that you perform your demo using three or four nodes.
 However, because your clusters may have more nodes than that, and you may
 want to dedicate particular nodes for testing NuoDB, the templates are set
 up to permit isolating NuoDB to specified nodes using labels.
 
 While you can run the CE template on a single host, this is not recommended
 as you will end up running the transaction engine, storage manager, administration
-tier, and client sample application -- all on one host.
+tier, and client sample application all on one host.
 
 ## Deploying NuoDB CE in OpenShift
 
 ### STEP 1.
-Create a project name “nuodb” by clicking the OpenShift “Create Project” button. If you like, you can also add a template display name of “NuoDB CE”.
+Create a project name “nuodb” by clicking the OpenShift “Create Project” button. If desirable, you can also add a template display name of “NuoDB CE”.
 
 ### STEP 2.
-Disable Transparent Huge Pages (THP) on the servers you will run NuoDB containers. For more information on this topic, see our OpenShift Prerequisite Configuration page, section titled “Disabling Transparent Huge Pages (THP)”.
+Disable Transparent Huge Pages (THP) on the servers you will run NuoDB containers. For more information on this topic, see our OpenShift Prerequisite Configuration page, section [Disabling Transparent Huge Pages (THP)](https://doc.nuodb.com/Latest/Default.htm#OpenShift-disable-THP.htm "NuoDB Documenation").
 
 ### STEP 3.
 Select the servers you want to use for NuoDB by assigning them OpenShift labels. The database install will start four container pods. We recommend you label at least three servers using the oc label command. For example:
@@ -76,7 +76,7 @@ It will only take a few moments for the database to start! You will see one pod 
       Insights
 
 
-#### Additional Information - Server Node Labeling Commands
+## Additional Information - Server Node Labeling Commands
 
 To permit isolating the NuoDB CE demo onto dedicated OpenShift nodes, you
 must add one label if you're running the `ephemeral` template, and two
@@ -90,13 +90,13 @@ their applicability, etc:
 | nuodb.com/zone  | availability zone or set of nodes to run nuodb on  | yes  | yes  | none |
 | nuodb.com/node-type  | type of node, typically `storage` |  no | yes  | none |
 
-Label three or four nodes with the `nuodb.com/zone` label, any value.
+Using an value, label three or four nodes with the nuodb.com/zone label.
 
-Label ONLY one node with the `nuodb.com/node-type` label, with any value.
+Using any value, label ONLY one node with the nuodb.com/node-type label.
 
 All NuoDB pods will run on those labeled nodes only.
 
-For example, to list and add labels:
+To list and add labels:
 
 ```
 $ oc get nodes -L nuodb.com/zone -L nuodb.com/node-type
