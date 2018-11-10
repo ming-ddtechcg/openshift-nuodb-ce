@@ -493,7 +493,7 @@ objects:
           - { name: DB_SCHEMA,           value: "${DB_SCHEMA}" }
           - { name: YCSB_WORKLOAD,       value: "${YCSB_WORKLOAD}" }
           - { name: LB_POLICY,           value: "${LB_POLICY}" }
-          - { name: NO_OF_THREADS,       value: "${NO_OF_THREADS}" }
+          - { name: NO_OF_PROCESSES,       value: "${NO_OF_PROCESSES}" }
           - { name: NO_OF_ROWS,          value: "${NO_OF_ROWS}" }
           - { name: NO_OF_ITERATIONS,    value: "${NO_OF_ITERATIONS}" }
           - { name: OPS_PER_ITERATION,    value: "${OPS_PER_ITERATION}" }
@@ -729,9 +729,9 @@ parameters:
     description: "Name of an existing load-balancer policy, that has already been created using the 'nuocmd set load-balancer' command"
     required: false
     value: ""
-  - name: NO_OF_THREADS
-    displayName: YCSB number of threads
-    description: The number of SQL connection that YCSB will make to the database. YCSB starts a new process for each thread.
+  - name: NO_OF_PROCESSES
+    displayName: number of YCSB processes
+    description: Number of concurrent YCSB processes that will be started. Each makes a connection to the database.
     value: "2"
     required: false
   - name: NO_OF_ROWS
@@ -741,10 +741,9 @@ parameters:
   - name: NO_OF_ITERATIONS
     displayName: YCSB number of iterations
     description: |+
-      The total number of times the YCSB benchmark runs each thread (process).
-      This controls the total run-time of the YCSB application.
-      Using the default values, each iteration takes typically 30 seconds, so a value of 10 would typically equate to 5 minutes total.
-      Use the value '0' to effectively run forever.
+      The total number of times the YCSB benchmark runs each process.
+      This controls the total number of YCSB operations performed in this run.
+      Use the value '0' to effectively run forever and only stop when the YCSB pod is scaled down.
     required: false
     value: "0"
   - name: OPS_PER_ITERATION
