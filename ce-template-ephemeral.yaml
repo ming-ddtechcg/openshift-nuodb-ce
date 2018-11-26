@@ -719,51 +719,50 @@ parameters:
       NOTE: Rerunning the YAML file will cause multiple warning messages that various objects 'already exist' - which can be ignored.
     required: false
     value: ""
-  - name: YCSB_WORKLOAD
-    displayName: YCSB workload
-    description: "Valid values are a-f. Each letter determines a different mix of read and update workload percentage generated. a= 50/50, b=95/5, c=100 read. Refer to YCSB documentation for more detail"
-    required: true
-    value: b
-  - name: LB_POLICY
-    displayName: YCSB load-balancer policy
-    description: "Name of an existing load-balancer policy, that has already been created using the 'nuocmd set load-balancer' command"
-    required: false
-    value: ""
-  - name: NO_OF_PROCESSES
-    displayName: number of YCSB processes
-    description: Number of concurrent YCSB processes that will be started. Each makes a connection to the database.
-    value: "2"
-    required: false
-  - name: NO_OF_ROWS
-    displayName: YCSB number of initial rows in table
-    required: false
-    value: "10000"
-  - name: NO_OF_ITERATIONS
-    displayName: YCSB number of iterations
-    description: |+
-      The total number of times the YCSB benchmark runs each process.
-      This controls the total number of YCSB operations performed in this run.
-      Use the value '0' to effectively run forever and only stop when the YCSB pod is scaled down.
-    required: false
-    value: "0"
-  - name: OPS_PER_ITERATION
-    displayName: number of YCSB SQL operations to perform in each iteration.
-    description: |+
-      This value controls the number of SQL operations performed given database connection - since in YCSB, a connection lasts the lifetime of each process iteration..
-      Increasing this value increases the run-time of each iteration - and hence the entire benchmark - while also reducing the overhead of opening new connections.
-      Decreasing this value reduces the time taken for the YCSB benchmark to discover and use new or replacement TEs.
-      The default value, on default hardware, results in an iteration time of around 30 seconds, and hence a delay of around 30 seconds for e new TE to be utilised.
-    required: false
-    value: "10000"
-  - name: MAX_DELAY
-    displayName: YCSB maximum workload delay
-    description: "Maximum time in milliseconds to wait for the database to become active (Default is 4 minutes)"
-    required: false
-    value: "240000"
   - name: LOAD_NAME
     displayName: YCSB workload pod name
     required: true
     value: ycsb-load
+  - name: YCSB_WORKLOAD
+    displayName: YCSB workload
+    description: "Valid values are letters a through f. Each letter represents a different percentage mix of read, update, or insert
+    workload generated. For example, a = 50/50 read/write, b=95/5 read/write, c=100 read. Refer to YCSB documentation for more details,
+    https://github.com/brianfrankcooper/YCSB/wiki"
+    required: true
+    value: b
+  - name: LB_POLICY
+    displayName: YCSB load-balancer policy
+    description: "Name of an existing load-balancer policy that has already been created using the 'nuocmd set load-balancer' command."
+    required: false
+    value: ""
+  - name: NO_OF_PROCESSES
+    displayName: Number of YCSB processes
+    description: Number of concurrent YCSB processes that will be started in each YCSB pod. Each YCSB process makes a connection to the database.
+    value: "2"
+    required: false
+  - name: NO_OF_ROWS
+    displayName: Number of initial rows inserted into the YCSB table
+    required: false
+    value: "10000"
+  - name: NO_OF_ITERATIONS
+    displayName: Number of YCSB benchmark runs/iterations to complete
+    description: |+
+      The total number of YCSB benchmark runs or iterations to complete. This controls the overall length of time
+      the sample workload will run. The value "0" will run the benchmark continuously until the YCSB pod is stopped.
+    required: false
+    value: "0"
+  - name: OPS_PER_ITERATION
+    displayName: Number of YCSB SQL operations to perform in each iteration
+    description: |+
+      This value controls the number of SQL operations performed in each benchmark iteration. Increasing this value increases the
+      run-time of each iteration, and also reduces the frequency at which new connections are made during the sample workload run period.
+    required: false
+    value: "10000"
+  - name: MAX_DELAY
+    displayName: YCSB maximum workload delay
+    description: "Maximum time in milliseconds to wait for the database to become active. (Default is 4 minutes)"
+    required: false
+    value: "240000"
   - name: DB_SCHEMA
     displayName: Database schema
     description: "Default schema to use to resolve tables, views, etc"
