@@ -4,7 +4,13 @@ Public repository for the NuoDB CE OpenShift templates.
 
 ## NuoDB Community Edition (CE) in OpenShift Overview
 
-The NuoDB CE OpenShift template is available in two options (1) using ephemeral storage and (2) using persistent storage. With ephemeral storage, if the Admin Service pod or Storage Manager pod are stopped or deleted, the database will be removed with the pod. With persistent storage, if either pod is stopped or deleted, the database state is preserved and available again (just as it was) on automatic pod restart.  The Enterprise Edition already supports persistent storage, which can be made available by simply contacting NuoDB. For more information about NuoDB running in Red Hat OpenShift, including System Requirements, see [Deploying NuoDB in OpenShift Environments](https://doc.nuodb.com/Latest/Default.htm#Deploying-NuoDB-with-OpenShift.htm "NuoDB Documentation").
+### NuoDB Community Edition
+
+The NuoDB Community Edition (CE) is a full featured version of NuoDB but limited to one Storage Manager (SM) and three Transaction Engine (TE) processes. The Community Edition is free of charge and allows you to self-evaluate NuoDB at your own pace. For more information about NuoDB and how to obtain an unlimited trial version, see: https://www.nuodb.com
+
+### The NuoDB CE OpenShift Templates
+
+The deployment templates are available in two options (1) using ephemeral storage and (2) using persistent storage. With ephemeral storage, if the Admin Service pod or Storage Manager pod are stopped or deleted, the database will be removed with the pod. With persistent storage, if either pod is stopped or deleted, the database state is preserved and available again (just as it was) on automatic pod restart.  The Enterprise Edition already supports persistent storage, which can be made available by simply contacting NuoDB. For more information about NuoDB running in Red Hat OpenShift, including System Requirements, see [Deploying NuoDB in OpenShift Environments](https://doc.nuodb.com/Latest/Default.htm#Deploying-NuoDB-with-OpenShift.htm "NuoDB Documentation").
 
 ## Image Availability
 

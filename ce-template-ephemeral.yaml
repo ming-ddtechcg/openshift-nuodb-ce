@@ -31,19 +31,23 @@ metadata:
       guarantee availability in the face of failures without any interruption to the
       database service.
 
-      The Community Edition is a full featured version of NuoDB but limited to one
-      Storage Manager (SM) and three Transaction Engine (TE) processes. The Community
-      Edition includes the Yahoo! Cloud Services Benchmark (YCSB). It's is a framework
-      for benchmarking database management systems. It's packaged in a convenient
-      Docker form to permit benchmarking container-native databases such as NuoDB.
-      By default the Pod is provisioned, but is not started. To generate sample load
-      against the provisioned database, the user should increase the count of YCSB
-      Pods.
-
-      For more information about NuoDB and how to obtain an unlimited trial version,
-      see:
-
-        https://www.nuodb.com
+      NuoDB Community Edition
+      
+      The NuoDB Community Edition (CE) is a full featured version of NuoDB but limited
+      to one Storage Manager (SM) and three Transaction Engine (TE) processes. The 
+      Community Edition is free of charge and allows you to self-evaluate NuoDB at your
+      own pace. For more information about NuoDB and how to obtain an unlimited trial
+      version, see: https://www.nuodb.com
+      
+      YCSB sample SQL application
+      
+      The Community Edition deployment template also installs the Yahoo! Cloud
+      Services Benchmark (YCSB) as a sample SQL application. YCSB is a framework for
+      benchmarking SQL database management systems. It's packaged in a convenient Docker
+      form to permit benchmarking container-native databases such as NuoDB. By default a
+      YCSB pod is provisioned, but is not started. To generate sample load against the
+      provisioned database, increase the YCSB running pod counter using the OpenShift
+      WEB UI interface.
 
       Ephemeral Storage
 
